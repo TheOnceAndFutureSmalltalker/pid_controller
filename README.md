@@ -43,8 +43,41 @@ After a few hours of trying to set good parameters to control the car and failin
 
 6) The simulation tests are not repeatable.  The simulation adds randomness to its operation, so 2 runs under identical conditions yield 2 different results.  This makes it difficult to compare runs with different parameters for parameter tuning.  I can't be sure if the difference in results is due to the change in parameters or just randomness from simulation.  Therefore, for a given set of parameters, I had make multiple runs to get a small sample for each parameter set.  And instead of comparing runs, I compared to samples of runs.  This made it more time consuming.
 
-7) I learned to ignore the first 10 iterations of the simulation at start up as transient noise.  The car is spinning its wheels here and will record erroneous speeds.  That is, the reading may be up to 8 mph, but the car is not going anywhere, just staying in place spinning its wheels.
+7) Also because of the noisy outputs of simulation explained above, I could not tune the parameters more than two significant digits.
 
-8) I did not find a way to launch the simulation from command line and could only run it via the user interface.  This made testing more time consuming.
+8) I learned to ignore the first 10 iterations of the simulation at start up as transient noise.  The car is spinning its wheels here and will record erroneous speeds.  That is, the reading may be up to 8 mph, but the car is not going anywhere, just staying in place spinning its wheels.
+
+9) I did not find a way to launch the simulation from command line and could only run it via the user interface.  This made testing more time consuming.
+
+
+
+## Approach
+
+I decided to create a schedule of gain parameters.  This is a different set of parameters optimized for a given speed range.  I arbitrarily chose 10 mph speed ranges.  That is, one set of parameter values for 0-10 mph, another set of paramter values for 10-20 mph, etc.  
+
+I added the ability to set gain parameters at the command line to speed things up.  I created a way to start collecting statistics once a given threshold speed was achieved and then exit after a fixed number of iterations.  I also added a printout of all values with each iteration.  
+
+From here, I just startded incrementing/decrementing values of Kd, Ki, and Kp trying to minimized the mean squared error.  Again, this process was repeated for each speed range.
+
+I also tried a few other techniques.  One was trying to figure out car angle relative to centerline from previous values, but I was unable to do this.  I also tried scaling Kd so that it had more effect the smaller CTE was and less effect for larger CTE values.  This did not prove effective however.
+
+## Solution
+
+I ended up with a schedule of parameters as follows:
+
+| lower speed | upper speed | Kp | Ki | Kd |
+|-------------|-------------|----|----|---|
+| -1000 | 10 | 0.6, 0.002, 0.25 |
+| 10 | 20 | 0.4 | 0.002 | 0.2 |
+| 20 | 30 | 0.2 | 0.01, 0.15 |
+| 30 | 40 | 0.12 | 0.01 | 0.10 |
+
+I succesfully ran the track up to 40 mpg with fair success but reset the submitted code back to 30 mph setting which actually will run up to 33 mph or so.
+
+## Final Thoughts
+
+Controlling steering from just CTE and speed is a very difficult problem.  I even glanced over some research papers that try to address this problem.  One helpful change would be to have more frequent observations.  But still, as speed increases, the faster observation rate becomes inadequate as well.  We just can't observing faster and faster to keep up with increasing speed.  The real underlying problem here is that we do not know the car's angle of orientation with the center line.  This is not the same as steering angle.  If we knew the car's orientation angle with center line, we could come up with a fourth term, similar to the differential term, one that would help mitigate over correction.  With such information, I am confident I could make a very smooth and low error drive at just about any speed.
+
+Finally, I realize for the purposes of the project that we need a set point, but I would like to challenge a bit the goal of keepingthe car on the center line. In the scenario of the simulation, driving fast around a track, staying on the center line is not optimal.  For example, heading into a left turn, you would want to position the car on the right hand side of the lane.  I don't feel that the center of the lane is optimal for driving fast around the track.
 
 
