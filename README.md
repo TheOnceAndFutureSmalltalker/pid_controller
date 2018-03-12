@@ -55,9 +55,9 @@ After a few hours of trying to set good parameters to control the car and failin
 
 I decided to create a schedule of gain parameters.  This is a different set of parameters optimized for a given speed range.  I arbitrarily chose 10 mph speed ranges.  That is, one set of parameter values for 0-10 mph, another set of paramter values for 10-20 mph, etc.  
 
-I added the ability to set gain parameters at the command line to speed things up.  I created a way to start collecting statistics once a given threshold speed was achieved and then exit after a fixed number of iterations.  I also added a printout of all values with each iteration.  
+I added the ability to set gain parameters at the command line to speed things up.  I created a way to start collecting statistics once a given threshold speed was achieved and then exit after a fixed number of iterations.  I also added a print line of all values with each iteration.  At the end of the run, I printed out the total error, mean squared error, and the parameter values.
 
-From here, I just startded incrementing/decrementing values of Kd, Ki, and Kp trying to minimized the mean squared error.  Again, this process was repeated for each speed range.
+From here, I just started incrementing/decrementing values of Kd, Ki, and Kp trying to minimize the mean squared error.  Again, this process was repeated for each speed range.
 
 I also tried a few other techniques.  One was trying to figure out car angle relative to centerline from previous values, but I was unable to do this.  I also tried scaling Kd so that it had more effect the smaller CTE was and less effect for larger CTE values.  This did not prove effective however.
 
@@ -77,6 +77,8 @@ I succesfully ran the track up to 40 mpg with fair success but reset the submitt
 ## Final Thoughts
 
 Controlling steering from just CTE and speed is a very difficult problem.  I even glanced over some research papers that try to address this problem.  One helpful change would be to have more frequent observations.  But still, as speed increases, the faster observation rate becomes inadequate as well.  We just can't observing faster and faster to keep up with increasing speed.  The real underlying problem here is that we do not know the car's angle of orientation with the center line.  This is not the same as steering angle.  If we knew the car's orientation angle with center line, we could come up with a fourth term, similar to the differential term, one that would help mitigate over correction.  With such information, I am confident I could make a very smooth and low error drive at just about any speed.
+
+I question my idea of minimizing MSE.  While bringing down MSE with better parameters, I noticed the ride became less smooth as the vehicle jerked back and forth across the center line.  Other parameter values may yield a higher error, but also provided a smoother ride.
 
 Finally, I realize for the purposes of the project that we need a set point, but I would like to challenge a bit the goal of keepingthe car on the center line. In the scenario of the simulation, driving fast around a track, staying on the center line is not optimal.  For example, heading into a left turn, you would want to position the car on the right hand side of the lane.  I don't feel that the center of the lane is optimal for driving fast around the track.
 
