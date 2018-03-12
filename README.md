@@ -43,7 +43,7 @@ After a few hours of trying to set good parameters to control the car and failin
 
 6) The simulation tests are not repeatable.  The simulation adds randomness to its operation, so 2 runs under identical conditions yield 2 different results.  This makes it difficult to compare runs with different parameters for parameter tuning.  I can't be sure if the difference in results is due to the change in parameters or just randomness from simulation.  Therefore, for a given set of parameters, I had make multiple runs to get a small sample for each parameter set.  And instead of comparing runs, I compared to samples of runs.  This made it more time consuming.
 
-7) Also because of the noisy outputs of simulation explained above, I could not tune the parameters more than two significant digits.
+7) Also because of the noisy outputs of the simulation explained above, I could not tune the parameters to more than two significant digits.
 
 8) I learned to ignore the first 10 iterations of the simulation at start up as transient noise.  The car is spinning its wheels here and will record erroneous speeds.  That is, the reading may be up to 8 mph, but the car is not going anywhere, just staying in place spinning its wheels.
 
