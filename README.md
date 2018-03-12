@@ -15,14 +15,14 @@ The program implements a PID controller to keep the CTE value as close to zero a
 
 <br /><br />
 <p align="center">
-<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/69072d4013ea8f14ab59a8283ef216fb958870b2" width="802px" /><br /><b>PID Controller Equation (from Wiikipedia)</b></p>
+<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/69072d4013ea8f14ab59a8283ef216fb958870b2" width="802px" /><br /><b>PID Controller Equation (from Wikipedia)</b></p>
 <br />
 
 The proportional term seeks to move the process variable (CTE in our case) back to the set point (zero CTE).  It does this in direct proportion to how far off the process variable is form its set point.  If the car is way off center, then we need to steer hard back in the other direction.  The parameter Kp is the proportionality parameter.  
 
 The integral term seeks to adjust for long term bias that is in one direction or the other and therefore is a proportion, Ki, of the current sum of errors. For example, a car is running on a track in a counter clockwise direction, then it will normally show a bias to be on the right side of the centerline - swinging wide on the curves.  
 
-The differential term seeks to dampen over-correction of the proportional term.  The differential term itslef is proportional, by the parameter Kd, to the current <i>change</i> in process variable. A large change in process variable (CTE) means we might be over-correcting and need to pull back a bit.  
+The differential term seeks to dampen over-correction of the proportional term.  The differential term itself is proportional, by the parameter Kd, to the current <i>change</i> in process variable. A large change in process variable (CTE) means we might be over-correcting and need to pull back a bit.  
 
 <i>Tuning</i> a PID controller is the search for the proper values of Kp, Ki, and Kd that minimize the error in process variable from the set point.  Programming a PID controller equation in C++ is easy.  Finding the proper gain parameter values is hard!
 
