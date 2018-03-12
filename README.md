@@ -24,8 +24,27 @@ The integral term seeks to adjust for long term bias that is in one direction or
 
 The differential term seeks to dampen over-correction of the proportional term.  The differential term itslef is proportional, by the parameter Kd, to the current <i>change</i> in process variable. A large change in process variable (CTE) means we might be over-correcting and need to pull back a bit.  
 
-<i>Tuning</i> a PID controller is the search for the proper values of Kp, Ki, and Kd that minimize the error in process variable from the set point.  Programming a PID controller is easy.  Finding the proper gain parameter values is hard!
+<i>Tuning</i> a PID controller is the search for the proper values of Kp, Ki, and Kd that minimize the error in process variable from the set point.  Programming a PID controller equation in C++ is easy.  Finding the proper gain parameter values is hard!
 
 
+## Some Observations
+
+After a few hours of trying to set good parameters to control the car and failing I came to some realizations.
+
+1 A PID controller must be tuned to its particular system (car steering, temperature control, etc.) because each of these systems has very different dynamics!  I cannot tune my controller to anything else other than the simulation program.
+
+2 A given car on a given track under given conditions traveling at 5 mph and same car same, on the same track, under same conditions traveling at 50 mph are 2 very different systems!  Primarily because the faster car is going to overcompensate much more quickly and in general, will need, smaller, more sensitive PID parameters.  The slower car will have more time/observations to make adjustments and can generally have more aggressive PID parameters.  This means, PID parameters are a function of speed!  This is called gain scheduling in the PID literature.  This is a common problem in control systems because a system just starting up (a few miles per hour in our case), and that same system at half load (30 mph let’s say), and then again at full load (70 mph or so) exhibits very different dynamics and requires different PID parameters.
+
+3 To adequately evaluate controller settings, I need to cover both straightaways and curves.  The first 10-15% of track is mostly a straight away so I can't just rely on this in my evaluation.
+
+4 In order to generate reliable statistical measures, I need enough iterations to get a confidence level of current parameters.  This I determined to be around 1000 iterations. 
+
+5 I needed a way to start measuring error only once the car got to a certain speed - the speed of iterest for the test.  
+
+6 The simulation tests are not repeatable.  The simulation adds randomness to its operation, so 2 runs under identical conditions yield 2 different results.  This makes it difficult to compare runs with different parameters for parameter tuning.  I can't be sure if the difference in results is due to the change in parameters or just randomness from simulation.  Therefore, for a given set of parameters, I had make multiple runs to get a small sample for each parameter set.  And instead of comparing runs, I compared to samples of runs.  This made it more time consuming.
+
+7 I learned to ignore the first 10 iterations of the simulation at start up as transient noise.  The car is spinning its wheels here and will record erroneous speeds.  That is, the reading may be up to 8 mph, but the car is not going anywhere, just staying in place spinning its wheels.
+
+8 I did not find a way to launch the simulation from command line and could only run it via the user interface.  This made testing more time consuming.
 
 
