@@ -67,10 +67,10 @@ I ended up with a schedule of parameters as follows:
 
 | lower speed | upper speed | Kp | Ki | Kd |
 |-------------|-------------|----|----|---|
-| -1000 | 10 | 0.6 | 0.002 |0.25 |
-| 10 | 20 | 0.4 | 0.002 | 0.2 |
-| 20 | 30 | 0.2 | 0.01 | 0.15 |
-| 30 | 40 | 0.12 | 0.01 | 0.10 |
+| -1000 | 10 | 0.6 | 0.02 |0.25 |
+| 10 | 20 | 0.4 | 0.02 | 0.2 |
+| 20 | 30 | 0.2 | 0.1 | 0.15 |
+| 30 | 40 | 0.12 | 0.1 | 0.10 |
 
 I succesfully ran the track up to 40 mpg with fair success but reset the submitted code back to 30 mph setting which actually will run up to 33 mph or so.
 
