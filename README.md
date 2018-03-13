@@ -82,7 +82,9 @@ One helpful change would be to have more frequent observations.  But still, as s
 
 The real underlying problem here is that we do not know the car's angle of orientation with the center line.  This is not the same as steering angle.  If we knew the car's orientation angle with center line, we could come up with a fourth term, similar to the differential term, one that would help mitigate over correction.  With such information, I am confident I could make a very smooth and low error drive at just about any speed.
 
-I question my idea of minimizing MSE.  While bringing down MSE with better parameters, I noticed the ride became less smooth as the vehicle jerked back and forth across the center line.  Other parameter values may yield a higher error, but also provided a smoother ride.
+I question my idea of minimizing MSE.  While bringing down MSE with better parameters, I noticed the ride became less smooth as the vehicle jerked back and forth across the center line.  Other parameter values may yield a higher error, but also provided a smoother ride.  
+
+I must mention that my solution does not work in reverse.  I think I would just need to add more records to my gain schedule for negative ranges of speed and tune variables for each of those ranges as well without having to change any code.  I don't know this for a fact though.
 
 Finally, I realize for the purposes of the project that we need a set point, but I would like to challenge a bit the goal of keeping the car on the center line. In the scenario of the simulation, driving fast around a track, staying on the center line is not optimal.  For example, heading into a left turn, you would want to position the car on the right hand side of the lane.  I don't feel that the center of the lane is optimal for driving fast around the track.
 
