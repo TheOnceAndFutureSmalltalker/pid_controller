@@ -51,13 +51,14 @@ int main(int argc, char *argv[])
   // initialize the controller
   PID pid;
   pid.Init(Kp, Ki, Kd);
-  pid.AddToSchedule(-1000.0, 10.0, 0.6, 0.002, 0.25); // PID gain for up to 10 mph
-  pid.AddToSchedule(10.0, 20.0, 0.4, 0.002, 0.2); // PID gain for 10 to 20 mph
-  pid.AddToSchedule(20.0, 30.0, 0.2, 0.01, 0.15); // PID gain for 20 to 30 mph
-  pid.AddToSchedule(30.0, 40.0, 0.12, 0.01, 0.10); // PID gain for 30 to 40 mph
+  pid.AddToSchedule(-1000.0, 10.0, 0.6, 0.02, 0.25); // PID gain for up to 10 mph
+  pid.AddToSchedule(10.0, 20.0, 0.4, 0.02, 0.2); // PID gain for 10 to 20 mph
+  pid.AddToSchedule(20.0, 30.0, 0.2, 0.1, 0.15); // PID gain for 20 to 30 mph
+  pid.AddToSchedule(30.0, 40.0, 0.12, 0.1, 0.10); // PID gain for 30 to 40 mph
   pid.tuning_mode = 0;  // set to 1 to print out info for tuning parameters
   pid.threshold_speed = 30.0; // when tuning, start taking stats at this speed
   pid.max_iterations = 1000; // when tuning, stop program after this number of observations
+  pid.delta_t = 0.1; // time step in second
 
   double throttle = 0.30; // set max throttle for simulator
 

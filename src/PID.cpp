@@ -89,7 +89,7 @@ void PID::SetParameters(double speed)
 double PID::CalculateSteerAngle(double cte, double speed)
 {
   SetParameters(speed);
-    double diff = (cte - prev_cte) / 0.1;
+    double diff = (cte - prev_cte) / delta_t;
     double p = -Kp * cte;
     double d = -Kd * diff;
     double i = -Ki * sum_cte;
@@ -113,7 +113,7 @@ double PID::CalculateSteerAngle(double cte, double speed)
     }
 
     // update differential and integral registers for next iteration
-    sum_cte += cte;
+    sum_cte += cte * delta_t;
     prev_cte = cte;
 
     return angle;
